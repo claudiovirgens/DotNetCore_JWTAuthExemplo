@@ -1,0 +1,13 @@
+﻿using JWTExemplo.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace JWTExemplo.Logic
+{
+    public interface IAccountLogic
+    {
+        public string GetAuthenticationToken(LoginModel loginModel);
+    }
+}
