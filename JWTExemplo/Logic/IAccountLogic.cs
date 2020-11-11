@@ -8,6 +8,8 @@ namespace JWTExemplo.Logic
 {
     public interface IAccountLogic
     {
-        public string GetAuthenticationToken(LoginModel loginModel);
+        public TokenModel GetAuthenticationToken(LoginModel loginModel);
+
+        
     }
 }

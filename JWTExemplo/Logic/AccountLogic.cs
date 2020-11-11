@@ -7,11 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using JWTExemplo.Data.Context;
+using System.Security.Cryptography;
 
 namespace JWTExemplo.Logic
 {
@@ -49,7 +49,7 @@ namespace JWTExemplo.Logic
         //        PhoneNumber = "222229999"
         //    }
         //};
-        public string GetAuthenticationToken(LoginModel loginModel)
+        public TokenModel GetAuthenticationToken(LoginModel loginModel)
         {
             //User currentUser = Users.Where(_ => _.Email.ToLower() == loginModel.Email.ToLower() && _.Password ==
             //loginModel.Password).FirstOrDefault();
@@ -77,11 +77,32 @@ namespace JWTExemplo.Logic
                     );
 
                 string token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-                return token;
+                string refreshToken = GetRefreshToken();
+
+                currentUser.RefreshToken = refreshToken;
+                _authDBContext.SaveChanges();
+
+
+                return new TokenModel
+                {
+                    Token = token,
+                    RefreshToken = refreshToken
+                };
 
             }
 
-            return string.Empty;
+            return null;
+        }
+        private string GetRefreshToken()
+        {
+            var key = new Byte[32];
+
+            using (var refreshTokenGenerator = RandomNumberGenerator.Create())
+            {
+                refreshTokenGenerator.GetBytes(key);
+                return Convert.ToBase64String(key);
+            }
         }
     }
+
 }

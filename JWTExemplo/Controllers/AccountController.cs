@@ -23,14 +23,14 @@ namespace JWTExemplo.Controllers
         [Route("login-token")]
         public IActionResult GetLoginToken(LoginModel model)
         {
-            var token = _accountLogic.GetAuthenticationToken(model);
+            var tokenModel = _accountLogic.GetAuthenticationToken(model);
 
-            if (string.IsNullOrEmpty(token))
+            if (tokenModel == null)
             {
                 return NotFound();
             }
 
-            return Ok(new {token});
+            return Ok(new { tokenModel });
         }
 
     }
