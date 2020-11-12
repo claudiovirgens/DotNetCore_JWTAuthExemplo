@@ -33,5 +33,18 @@ namespace JWTExemplo.Controllers
             return Ok(new { tokenModel });
         }
 
+
+        public IActionResult ActivateAccessTokenByRefresh(TokenModel refreshToken)
+        {
+            var resultTokenModel = _accountLogic.ActiveTokenUsingRefreshToken(refreshToken);
+
+            if(refreshToken == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(resultTokenModel);
+        }
+
     }
 }

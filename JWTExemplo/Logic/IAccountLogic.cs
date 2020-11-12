@@ -10,6 +10,6 @@ namespace JWTExemplo.Logic
     {
         public TokenModel GetAuthenticationToken(LoginModel loginModel);
 
-        
+        public TokenModel ActiveTokenUsingRefreshToken(TokenModel tokenModel);
     }
 }
